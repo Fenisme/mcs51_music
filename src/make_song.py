@@ -1,6 +1,4 @@
-f_cpu = 11059200
 notes = [['C4', 261.63], ['C4#', 277.18], ['D4', 293.66], ['D4#', 311.13], ['E4', 329.63], ['F4', 349.23], ['F4#', 369.23], ['G4', 392.00], ['G4#', 415.30], ['A4', 440], ['A4#', 466.16], ['B4', 493.88]]
-test_song = [[1,2], [2, 2], [3, 2], [0, 1], [4, 2], [5.5, 2], [6, 2], [7, 1]]
 two_tiger = [
   [1, 2], [2, 2], [3, 2], [1, 2],
   [1, 2], [2, 2], [3, 2], [1, 2],
@@ -11,12 +9,17 @@ two_tiger = [
   [3, 2], [-15, 2], [1, 4],
   [3, 2], [-15, 2], [1, 4]
 ]
+f_cpu = 11059200
+test_song = two_tiger
+do_base = 'F'
+
 # note:
-#   assume 1 = C4, TODO: make it work for other condition.
+#   assume 1 = C
 #   1, 2, 3 present C4, D4, E4
 #   11, 21, 31 presetn C5, C6, C7
 #   -11, -21, -31 present C3, C2, C1
-def map_note (num):
+def map_note (num, base = 'C'):
+    base_table = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
     if num == 0:
         return 0
     octave = int(num / 10)
@@ -27,6 +30,10 @@ def map_note (num):
         c = 2 * int(note_family) - 2
     if (num % 1 > 0):
         c = 1
+    c += base_table.index(base)
+    if c > (len(notes) - 1):
+        c -= (len(notes) - 1)
+        octave += 1
     return notes[c][1] * 2**octave
 
 # freq_table:
@@ -42,7 +49,7 @@ def make_freq_table (song):
     freqs.append(0)
     table[0] = [0, 0, 0]
     for note in song:
-        freq = map_note (note[0])
+        freq = map_note (note[0], do_base)
         if freq not in freqs:
             th = int(65536 - (1000000/freq/2)*f_cpu / 12000000) >> 8
             tl = int(65536 - (1000000/freq/2)*f_cpu / 12000000) & 0x00FF
@@ -76,6 +83,6 @@ def encode_song (song, table):
     return c_code
 
 
-freq_table = make_freq_table(two_tiger)
+freq_table = make_freq_table(test_song)
 print(make_freq_table_c(freq_table))
-print(encode_song (two_tiger, freq_table))
+print(encode_song (test_song, freq_table))

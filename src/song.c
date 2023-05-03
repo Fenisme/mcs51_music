@@ -2,13 +2,13 @@
 static Freq freq_table[] =
 {
   {0, 0},
-  {249, 30},
-  {249, 222},
-  {250, 138},
+  {250, 54},
   {250, 216},
   {251, 104},
-  {251, 232},
-  {246, 208},
+  {251, 170},
+  {252, 35},
+  {252, 192},
+  {248, 70},
 };
 
 static Song test_song[] =
@@ -46,7 +46,6 @@ static Song test_song[] =
   {7, 2},
   {1, 4},
 };
-
 static unsigned int song_timer_count;
 static int note;
 static unsigned int song_th1;
@@ -66,12 +65,14 @@ static void song_set_note (void)
 
 static void song_next_note (void)
 {
+  TR1 = 0;
   if (note < sizeof(test_song))
     note += 1;
   else
     note = 0;
   song_timer_count = test_song[note].length;
   song_set_note ();
+  TR1 = 1;
 }
 
 void song_timer (void) __interrupt 1

@@ -2,7 +2,8 @@
 #include "config.h"
 #define VELOCITIES_TH 252
 #define VELOCITIES_TL 102
-#define SONG_METER 312
+#define SONG_METER 230
+#define BREATHE_METER 11
 struct _Freq
 {
   unsigned short th:8;
@@ -14,8 +15,8 @@ typedef struct _Freq Freq;
 
 struct _Song
 {
-  int freq:4;
-  int length:4;
+  int freq:8;
+  int length:8;
 };
 
 typedef struct _Song Song;

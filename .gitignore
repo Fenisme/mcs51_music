@@ -1,1 +1,4 @@
 .pio
+/src/config.py 
+/src/config.h
+__pycache__

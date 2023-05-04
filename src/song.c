@@ -94,7 +94,7 @@ void note_timer (void) __interrupt 3
 {
   TH1 = song_th1;
   TL1 = song_tl1;
-  BUZZ = !BUZZ;
+  switch_buzz ();
 }
 
 void play_song (void)

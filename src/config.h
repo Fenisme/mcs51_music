@@ -4,6 +4,13 @@
 #define buzz_stop() TR1 = 0
 #define buzz_resume() TR1 = 1
 #endif
+
+#ifdef Generic8051
+#define buzz_switch() P1_0 = !P1_0
+#define buzz_stop() TR1 = 0
+#define buzz_resume() TR1 = 1
+#endif
+
 #ifdef IAP15F2K61S2
 #define buzz_switch() \
   do \

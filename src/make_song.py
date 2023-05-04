@@ -1,4 +1,17 @@
-notes = [['C4', 261.63], ['C4#', 277.18], ['D4', 293.66], ['D4#', 311.13], ['E4', 329.63], ['F4', 349.23], ['F4#', 369.23], ['G4', 392.00], ['G4#', 415.30], ['A4', 440], ['A4#', 466.16], ['B4', 493.88]]
+cbaes_notes = {
+    1   : ['C4', 261.63],
+    1.5 : ['C4#', 277.18],
+    2   : ['D4', 293.66],
+    2.5 : ['D4#', 311.13],
+    3   : ['E4', 329.63], 
+    4   : ['F4', 349.23], 
+    4.5 : ['F4#', 369.23],
+    5   : ['G4', 392.00],
+    5.5 : ['G4#', 415.30],
+    6   : ['A4', 440],
+    6.5 : ['A4#', 466.16],
+    7   : ['B4', 493.88]
+}
 two_tiger = [
   [1, 2], [2, 2], [3, 2], [1, 2],
   [1, 2], [2, 2], [3, 2], [1, 2],
@@ -18,23 +31,21 @@ do_base = 'F'
 #   1, 2, 3 present C4, D4, E4
 #   11, 21, 31 presetn C5, C6, C7
 #   -11, -21, -31 present C3, C2, C1
+#   add .5 means add a semitone
 def map_note (num, base = 'C'):
-    base_table = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+    base_table = {'C':0, 'D':2, 'E':3, 'F':4, 'G':6, 'A':8, 'B':10}
     if num == 0:
         return 0
     octave = int(num / 10)
     note_family = abs(num) % 10
-    if note_family > 3:
-        c = 2 * int(note_family) - 3
-    else:
-        c = 2 * int(note_family) - 2
+    c = note_family
     if (num % 1 > 0):
-        c = 1
-    c += base_table.index(base)
-    if c > (len(notes) - 1):
-        c -= (len(notes) - 1)
+        c += 1
+    c += base_table[base]
+    if c > 7:
+        c -= 7
         octave += 1
-    return notes[c][1] * 2**octave
+    return cbaes_notes[c][1] * 2**octave
 
 # freq_table:
 #   e.g: 6:[0, 251, 232]

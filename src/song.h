@@ -22,4 +22,5 @@ struct _Song
 typedef struct _Song Song;
 void song_timer (void) __interrupt 1;
 void note_timer (void) __interrupt 3;
-void play_song (void);
+void song_init (void);
+void song_play (void);

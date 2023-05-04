@@ -4,9 +4,9 @@
 
 void main()
 {
-  play_song();
+  song_init ();
+  song_play ();
   while (1)
     {
-
     }
 }

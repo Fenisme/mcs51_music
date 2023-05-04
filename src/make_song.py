@@ -67,7 +67,7 @@ f_cpu = 11059200
 test_song = gyz
 do_base = 'B'
 min_tone = 16
-breathe = 0.05
+breathe = 0.1
 tones_per_section = 16
 tones_per_min = 65
 
@@ -153,6 +153,10 @@ def timer_setting():
     tones = tones_per_min * (min_tone / 4)
     song_meter = "#define SONG_METER {}".format(int(60000/tones))
     breathe_meter = "#define BREATHE_METER {}".format(int(breathe * 60000/tones))
+    velocities_th = "#define VELOCITIES_TH {}".format(int(65536 - 1000 * f_cpu / 12000000) >> 8)
+    velocities_tl = "#define VELOCITIES_TL {}".format(int(65536 - 1000 * f_cpu / 12000000) & 0x00FF)
+    print(velocities_th)
+    print(velocities_tl)
     print(song_meter)
     print(breathe_meter)
 

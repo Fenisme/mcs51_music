@@ -1,7 +1,7 @@
 #include "song.h"
 static const Freq *freq_tables[] = {freq_table0, freq_table1, freq_table2};
 static const Song *songs[] = {song0, song1, song2};
-static const int song_length[] = {sizeof (song0), sizeof (song1), sizeof (song2)};
+static const unsigned int song_length[] = {32, 172, 227};
 static const Freq freq_table0[] =
 {
   {0, 0},

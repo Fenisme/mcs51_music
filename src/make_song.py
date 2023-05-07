@@ -125,3 +125,4 @@ def make_music_h(songs):
 songs = config.musics
 print(make_music_h(songs))
 timer_setting()
+print(len(songs[0][0]), len(songs[1][0]), len(songs[2][0]))

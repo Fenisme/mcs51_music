@@ -10,7 +10,6 @@ void main()
   int button3_status = button_switch_status(0);
 
   song_init ();
-  song_play ();
   while (1)
     {
       check_button (BUTTON1, song_switch, button1_status);

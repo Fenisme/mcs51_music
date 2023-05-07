@@ -13,6 +13,7 @@ static int song_buzz_status;
 static int song_timer_breathe;
 static int song_length_now;
 static int song_status;
+static int song_meter;
 static Song *song_now;
 static void song_set_note (void)
 {
@@ -30,7 +31,7 @@ static void song_set_note (void)
 static void song_next_note (void)
 {
   buzz_stop ();
-  song_timer_breathe = BREATHE_METER;
+  song_timer_breathe = song_breathe_table[song_index];
   if (note < song_length[song_index])
     note += 1;
   else
@@ -51,7 +52,7 @@ void song_timer (void) __interrupt 1
   if (song_timer_meter == 0) 
     {
       song_timer_count -= 1;
-      song_timer_meter = SONG_METER;
+      song_timer_meter = song_meter;
     }
   if (song_timer_count <= 0)
     song_next_note ();
@@ -73,7 +74,8 @@ static void song_setup (void)
   song_timer_count = (song_now + note)->length;
   song_length_now = song_length[song_index];
   song_freq_table = freq_tables[song_index];
-  song_timer_meter = SONG_METER;
+  song_meter = song_meter_table[song_index];
+  song_timer_meter = song_meter;
 }
 
 void song_pause (void)

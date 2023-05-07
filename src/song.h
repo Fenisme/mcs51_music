@@ -4,8 +4,6 @@
 #include "config.h"
 #define VELOCITIES_TH 252
 #define VELOCITIES_TL 24
-#define SONG_METER 230
-#define BREATHE_METER 23
 struct _Freq
 {
   unsigned short th:8;

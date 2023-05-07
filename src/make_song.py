@@ -16,7 +16,6 @@ cbaes_notes = {
 
 f_cpu = config.f_cpu
 breathe = config.breathe
-do_base = config.music[1]
 tones_per_min = config.music[2]
 tones_per_section = config.music[3]
 min_tone = config.music[4]
@@ -48,7 +47,7 @@ def map_note (num, base = 'C'):
 #     0: index of this freq, it will be used in c code;
 #     [251][232]: th and tl value about a freq, this is 'A4'(440Hz).
 #   
-def make_freq_table (song):
+def make_freq_table (song, do_base = 'C'):
     freqs = []
     table = {}
     index = 1
@@ -62,7 +61,6 @@ def make_freq_table (song):
             table[note[0]] = [index,  th, tl]
             freqs.append(freq)
             index += 1
-    print(table)
     return table
 
 
@@ -101,28 +99,67 @@ def encode_song (song, table, index = 0):
 
 # timer:
 #   This func is used to generate count value for time counting.
-def timer_setting():
+def timer_setting(tones_per_min, tones_per_section, min_tone):
     tones = tones_per_min * (min_tone / 4)
-    song_meter = "#define SONG_METER {}".format(int(60000/tones))
-    breathe_meter = "#define BREATHE_METER {}".format(int(breathe * 60000/tones))
+    song_meter = int(60000/tones)
+    breathe_meter = int(breathe * 60000/tones)
     velocities_th = "#define VELOCITIES_TH {}".format(int(65536 - 1000 * f_cpu / 12000000) >> 8)
     velocities_tl = "#define VELOCITIES_TL {}".format(int(65536 - 1000 * f_cpu / 12000000) & 0x00FF)
-    print(velocities_th)
-    print(velocities_tl)
-    print(song_meter)
-    print(breathe_meter)
+    return velocities_th, velocities_tl, song_meter, breathe_meter
 
 def make_music_h(songs):
     h_code = "#include \"song.h\"\n"
     index = 0
+    length = []
+    meter = []
+    breathe = []
+#tones_per_min = config.music[2]
+#tones_per_section = config.music[3]
+#min_tone = config.music[4]
     for s in songs:
-        freq_table = make_freq_table(s[0])
+        length.append(len(s[0]))
+        z, a, b, c = timer_setting(s[2], s[3], s[4])
+        meter.append(b)
+        breathe.append(c)
+        freq_table = make_freq_table(s[0], s[1])
         h_code += make_freq_table_c(freq_table, index)
         h_code += encode_song (s[0], freq_table, index)
         index += 1
+    h_code += "static const Freq *freq_tables[] = {"
+    for i in range(index):
+        h_code += "freq_table{}".format(i)
+        if i != index - 1:
+            h_code += ", "
+    h_code += "};\n"
+
+    h_code += "static const Song *songs[] = {"
+    for i in range(index):
+        h_code += "song{}".format(i)
+        if i != index - 1:
+            h_code += ", "
+    h_code += "};\n"
+
+    h_code += "static const unsigned int song_length[] = {"
+    for i in range(index):
+        h_code += "{}".format(length[i])
+        if i != index - 1:
+            h_code += ", "
+    h_code += "};\n"
+
+    h_code += "static const unsigned int song_meter_table[] = {"
+    for i in range(index):
+        h_code += "{}".format(meter[i])
+        if i != index - 1:
+            h_code += ", "
+    h_code += "};\n"
+
+    h_code += "static const unsigned int song_breathe_table[] = {"
+    for i in range(index):
+        h_code += "{}".format(breathe[i])
+        if i != index - 1:
+            h_code += ", "
+    h_code += "};\n"
     return h_code
 
 songs = config.musics
 print(make_music_h(songs))
-timer_setting()
-print(len(songs[0][0]), len(songs[1][0]), len(songs[2][0]))

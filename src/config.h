@@ -3,6 +3,8 @@
 #define buzz_switch() P2_5 = !P2_5
 #define buzz_stop() TR1 = 0
 #define buzz_resume() TR1 = 1
+#define BUTTON1 P3_0
+#define BUTTON_ACTIVATE 0
 #endif
 
 #ifdef Generic8051
@@ -14,6 +16,8 @@
     P1_0 = 0; \
   } while (0)
 #define buzz_resume() TR1 = 1
+#define BUTTON1 P3_0
+#define BUTTON_ACTIVATE 0
 #endif
 
 #ifdef IAP15F2K61S2
@@ -43,5 +47,7 @@
     P0_6 = 1; \
     TR1 = 1; \
   } while (0)
+#define BUTTON1 P3_0
+#define BUTTON_ACTIVATE 0
 #endif
 

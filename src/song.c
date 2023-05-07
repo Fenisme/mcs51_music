@@ -12,6 +12,7 @@ static Freq *song_freq_table;
 static int song_buzz_status;
 static int song_timer_breathe;
 static int song_length_now;
+static int song_status;
 static Song *song_now;
 static void song_set_note (void)
 {
@@ -80,6 +81,7 @@ void song_pause (void)
   TR0 = 0;
   TR1 = 0;
   buzz_stop();
+  song_status = 0;
 }
 
 void song_next (void)
@@ -105,6 +107,7 @@ void song_init ()
   EA = 0;
   TR0 = 0;
   TR1 = 0;
+  song_status = 0;
   buzz_stop ();
 }
 
@@ -113,4 +116,26 @@ void song_play (void)
   TR0 = 1;
   TR1 = 1;
   EA = 1;
+  song_status = 1;
+}
+
+void song_replay (void)
+{
+  song_setup ();
+  song_play ();
+
+}
+
+void song_switch (void)
+{
+  if (song_status == 1)
+  {
+    song_pause ();
+    song_status = 0;
+  }
+  else
+  {
+    song_play ();
+    song_status =  1;
+  }
 }

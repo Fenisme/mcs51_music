@@ -28,4 +28,6 @@ void song_init ();
 void song_play (void);
 void song_pause (void);
 void song_next (void);
+void song_switch (void);
+void song_replay (void);
 #endif

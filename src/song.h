@@ -1,3 +1,5 @@
+#ifndef __SONG_H__
+#define __SONG_H__
 #include <mcs51/8051.h>
 #include "config.h"
 #define VELOCITIES_TH 252
@@ -24,3 +26,4 @@ void song_timer (void) __interrupt 1;
 void note_timer (void) __interrupt 3;
 void song_init (void);
 void song_play (void);
+#endif

@@ -62,27 +62,29 @@ def make_freq_table (song):
             table[note[0]] = [index,  th, tl]
             freqs.append(freq)
             index += 1
+    print(table)
     return table
 
-def make_freq_table_c (table):
+
+def make_freq_table_c (table, index):
     freq_list = []
     notes = table.keys()
     for i in notes:
         freq_list.append([table[i][0], table[i][1], table[i][2]])
     freq_list.sort(key = lambda x:x[0])
     c_code = ""
-    c_code += "const static Freq freq_table[] =\n"
+    c_code += "static const Freq freq_table{}[] =\n".format(index)
     c_code += "{\n"
     for i in freq_list:
         c_code += "  {{{th}, {tl}}},\n".format(th = i[1], tl = i[2])
-    c_code += "};\n"
+    c_code += "};\n\n"
     return c_code
         
-def encode_song (song, table):
+def encode_song (song, table, index = 0):
     tones = 0
     section = 1
     c_code = ""
-    c_code += "const static Song test_song[] =\n"
+    c_code += "const static Song song{}[] =\n".format(index)
     c_code += "{\n"
     c_code += "  "
     for i in song:
@@ -94,7 +96,7 @@ def encode_song (song, table):
         c_code += "{{{index}, {length}}},".format(index = table[i[0]][0], length = i[1])
         tones += i[1]
     c_code += "\n"
-    c_code += "};\n"
+    c_code += "};\n\n"
     return c_code
 
 # timer:
@@ -110,8 +112,16 @@ def timer_setting():
     print(song_meter)
     print(breathe_meter)
 
-test_song = config.music[0]
-freq_table = make_freq_table(test_song)
-print(make_freq_table_c(freq_table))
-print(encode_song (test_song, freq_table))
+def make_music_h(songs):
+    h_code = "#include \"song.h\"\n"
+    index = 0
+    for s in songs:
+        freq_table = make_freq_table(s[0])
+        h_code += make_freq_table_c(freq_table, index)
+        h_code += encode_song (s[0], freq_table, index)
+        index += 1
+    return h_code
+
+songs = config.musics
+print(make_music_h(songs))
 timer_setting()

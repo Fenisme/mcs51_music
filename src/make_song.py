@@ -103,8 +103,8 @@ def timer_setting(tones_per_min, tones_per_section, min_tone):
     tones = tones_per_min * (min_tone / 4)
     song_meter = int(60000/tones)
     breathe_meter = int(breathe * 60000/tones)
-    velocities_th = "#define VELOCITIES_TH {}".format(int(65536 - 1000 * f_cpu / 12000000) >> 8)
-    velocities_tl = "#define VELOCITIES_TL {}".format(int(65536 - 1000 * f_cpu / 12000000) & 0x00FF)
+    velocities_th = "#define VELOCITIES_TH {}\n".format(int(65536 - 1000 * f_cpu / 12000000) >> 8)
+    velocities_tl = "#define VELOCITIES_TL {}\n".format(int(65536 - 1000 * f_cpu / 12000000) & 0x00FF)
     return velocities_th, velocities_tl, song_meter, breathe_meter
 
 def make_music_h(songs):
@@ -113,12 +113,14 @@ def make_music_h(songs):
     length = []
     meter = []
     breathe = []
+    th = ''
+    tl = ''
 #tones_per_min = config.music[2]
 #tones_per_section = config.music[3]
 #min_tone = config.music[4]
     for s in songs:
         length.append(len(s[0]))
-        z, a, b, c = timer_setting(s[2], s[3], s[4])
+        th, tl, b, c = timer_setting(s[2], s[3], s[4])
         meter.append(b)
         breathe.append(c)
         freq_table = make_freq_table(s[0], s[1])
@@ -159,6 +161,8 @@ def make_music_h(songs):
         if i != index - 1:
             h_code += ", "
     h_code += "};\n"
+    h_code += th
+    h_code += tl
     return h_code
 
 songs = config.musics

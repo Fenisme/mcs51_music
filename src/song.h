@@ -2,8 +2,6 @@
 #define __SONG_H__
 #include <mcs51/8051.h>
 #include "config.h"
-#define VELOCITIES_TH 252
-#define VELOCITIES_TL 24
 struct _Freq
 {
   unsigned short th:8;

@@ -78,6 +78,10 @@ static void song_setup (void)
   song_timer_meter = song_meter;
 }
 
+/*
+ * song_pause:
+ *   Change playing status to pause.
+ */
 void song_pause (void)
 {
   TR0 = 0;
@@ -86,6 +90,10 @@ void song_pause (void)
   song_status = 0;
 }
 
+/*
+ * song_next:
+ *   move to next song, not change playing status.
+ */
 void song_next (void)
 {
   if (song_index < 2)
@@ -95,6 +103,11 @@ void song_next (void)
   song_setup ();
 }
 
+/*
+ * song_init:
+ *   making timer prepare for playing songs,
+ *   must be called before playing.
+ */
 void song_init ()
 {
   TMOD = 0x11;
@@ -113,6 +126,10 @@ void song_init ()
   buzz_stop ();
 }
 
+/*
+ * song_play:
+ *   Play the song.
+ */
 void song_play (void)
 {
   TR0 = 1;
@@ -121,6 +138,11 @@ void song_play (void)
   song_status = 1;
 }
 
+/*
+ * song_replay:
+ *   Move playing position to the start,
+ *   not change playing status.
+ */
 void song_replay (void)
 {
   song_setup ();
@@ -128,6 +150,10 @@ void song_replay (void)
 
 }
 
+/*
+ * song_switch:
+ *   Change between playing or pause.
+ */
 void song_switch (void)
 {
   if (song_status == 1)

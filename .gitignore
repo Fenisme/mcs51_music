@@ -1,4 +1,5 @@
 .pio
 /src/config.py 
 /src/config.h
+/src/music.h
 __pycache__

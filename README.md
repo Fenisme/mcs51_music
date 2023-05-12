@@ -10,6 +10,7 @@ mcs51系列单片机实现简单音乐盒。
 ## 编译方法
 
 ```
+python src/make_song.py > src/music.h
 pio run
 ```
 

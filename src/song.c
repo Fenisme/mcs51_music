@@ -136,6 +136,7 @@ void song_play (void)
   TR1 = 1;
   EA = 1;
   song_status = 1;
+  song_set_note();
 }
 
 /*

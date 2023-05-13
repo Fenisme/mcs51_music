@@ -101,6 +101,7 @@ void song_next (void)
   else
     song_index = 0;
   song_setup ();
+  song_set_note();
 }
 
 /*
@@ -147,8 +148,6 @@ void song_play (void)
 void song_replay (void)
 {
   song_setup ();
-  song_play ();
-
 }
 
 /*

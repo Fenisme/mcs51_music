@@ -91,7 +91,10 @@ def encode_song (song, table, index = 0):
             c_code += "  "
             tones -= tones_per_section
             section += 1
-        c_code += "{{{index}, {length}}},".format(index = table[i[0]][0], length = i[1])
+        tmp_length = i[1]
+        while tmp_length > 0:
+            c_code += "{{{index}, {length}}},".format(index = table[i[0]][0], length = min(tmp_length, 7))
+            tmp_length -= 7
         tones += i[1]
     c_code += "\n"
     c_code += "};\n\n"
@@ -134,7 +137,7 @@ def make_music_h(songs):
             h_code += ", "
     h_code += "};\n"
 
-    h_code += "static const Song *songs[] = {"
+    h_code += "static const Song **songs = {"
     for i in range(index):
         h_code += "song{}".format(i)
         if i != index - 1:

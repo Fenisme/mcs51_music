@@ -1,4 +1,3 @@
-#define F_CPU 11059200
 #ifdef STC89C52RC
 #define buzz_switch() P2_5 = !P2_5
 #define buzz_stop() TR1 = 0

@@ -13,8 +13,8 @@ typedef struct _Freq Freq;
 
 struct _Song
 {
-  int freq:8;
-  int length:8;
+  unsigned int freq:4;
+  unsigned int length:4;
 };
 
 typedef struct _Song Song;

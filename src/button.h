@@ -17,6 +17,9 @@
     } \
   }while(0)
 
+#ifdef BUTTON_MATRIX
+unsigned short button_scan (void);
+#endif
 void delay (int count);
 int button_switch_status (int status);
 #endif

@@ -1,3 +1,4 @@
+#include <mcs51/8051.h>
 #ifdef STC89C52RC
 #define buzz_switch() P2_5 = !P2_5
 #define buzz_stop() TR1 = 0
@@ -6,6 +7,7 @@
 #define BUTTON2 P3_1
 #define BUTTON3 P3_2
 #define BUTTON_ACTIVATE 0
+#define BUTTON_MATRIX P1
 #endif
 
 #ifdef Generic8051

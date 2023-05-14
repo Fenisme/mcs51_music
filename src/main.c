@@ -12,6 +12,10 @@ void main()
   song_init ();
   while (1)
     {
+#ifdef BUTTON_MATRIX
+      if (button_scan())
+        P2_1 = !P2_1;
+#endif
       check_button (BUTTON1, song_switch, button1_status);
       check_button (BUTTON2, song_next, button2_status);
       check_button (BUTTON3, song_replay, button3_status);

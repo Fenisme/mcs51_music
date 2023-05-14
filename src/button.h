@@ -19,6 +19,11 @@
 
 #ifdef BUTTON_MATRIX
 unsigned short button_scan (void);
+int button_get_index (void);
+void button_map_index (unsigned short key);
+int button_get_index (void);
+int button_get_index_h (void);
+int button_get_index_l (void);
 #endif
 void delay (int count);
 int button_switch_status (int status);

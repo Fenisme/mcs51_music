@@ -179,3 +179,14 @@ int song_get_index (void)
 {
   return song_index;
 }
+
+int song_choose (int index)
+{
+  if (index < 0 || index > SONG_INDEX_MAX)
+    return 0;
+  song_index = index;
+  song_setup ();
+  song_set_note();
+  delay (10);
+  return index;
+}

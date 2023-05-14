@@ -1,5 +1,7 @@
 #include "button.h"
 #include "config.h"
+#include "song.h"
+#include "music.h"
 
 void delay (int count)
 {
@@ -15,6 +17,77 @@ int button_switch_status (int status)
       return 1;
 }
 #ifdef BUTTON_MATRIX
+/*static enum _ButtonStatus*/
+/*{*/
+  /*DEFAULT = 0,*/
+  /*CUSTOM = 1*/
+/*} button_status = DEFAULT;*/
+
+static int button_custom_index = 0;
+static int button_custom_index_h = 0;
+static int button_custom_index_l = 0;
+
+int button_get_index (void)
+{
+  return button_custom_index;
+}
+
+int button_get_index_h (void)
+{
+  return button_custom_index_h;
+}
+
+int button_get_index_l (void)
+{
+  return button_custom_index_l;
+}
+
+static void button_index_increase (int num)
+{
+  if (button_custom_index_h)
+    return;
+  button_custom_index_h = button_custom_index_l;
+  button_custom_index_l = num;
+  button_custom_index = button_custom_index_h * 10 + button_custom_index_l;
+}
+
+static void button_index_decrease (void)
+{
+  button_custom_index_l = button_custom_index_h;
+  button_custom_index_h = 0;
+  button_custom_index = button_custom_index_l;
+}
+
+static void button_confirm (void)
+{
+  int song_index = button_custom_index - 1;
+  if (song_index >= 0 && song_index <= SONG_INDEX_MAX )
+    song_choose (song_index);
+  button_custom_index = 0;
+  button_custom_index_h = 0;
+  button_custom_index_l = 0;
+}
+
+void button_map_index (unsigned short key)
+{
+  switch (key)
+  {
+    case 16: button_index_increase (7); break;
+    case 12: button_index_increase (8); break;
+    case 18: button_index_increase (9); break;
+    case 15: button_index_increase (4); break;
+    case 11: button_index_increase (5); break;
+    case 7: button_index_increase (6); break;
+    case 14: button_index_increase (1); break;
+    case 10: button_index_increase (2); break;
+    case 6: button_index_increase (3); break;
+    case 13: button_index_increase (0); break;
+    case 1: button_confirm (); break;
+    case 5: button_index_decrease (); break;
+    default: break;
+  }
+}
+
 unsigned short button_scan (void)
 {
   unsigned short key = 0; 
@@ -94,4 +167,5 @@ unsigned short button_scan (void)
   else
     return 0;
 }
+
 #endif

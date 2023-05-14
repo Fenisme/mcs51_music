@@ -28,4 +28,5 @@ void song_switch (void);
 void song_replay (void);
 int song_get_index (void);
 int song_get_status (void);
+int song_choose (int index);
 #endif

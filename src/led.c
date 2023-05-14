@@ -24,6 +24,14 @@ void led_putchar (int index, unsigned char out)
   delay(1);
 }
 
+void led_print_song (void)
+{
+  led_putchar (7, LED_CHAR_S);
+  led_putchar (6, LED_CHAR_o);
+  led_putchar (5, LED_CHAR_n);
+  led_putchar (4, LED_CHAR_g);
+}
+
 static void led_print_play (void)
 {
   led_putchar (7, LED_CHAR_P);
@@ -51,6 +59,7 @@ void led_putnum (int index, int num)
   {
     led_choose (index);
     LED = led_num_table[num];
+    delay (1);
   }
 }
 

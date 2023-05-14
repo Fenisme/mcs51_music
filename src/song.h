@@ -13,8 +13,9 @@ typedef struct _Freq Freq;
 
 struct _Song
 {
-  unsigned int freq:4;
+  /*unsigned int continuity:1;*/
   unsigned int length:4;
+  unsigned int freq:4;
 };
 
 typedef struct _Song Song;

@@ -31,8 +31,9 @@ static void song_set_note (void)
 
 static void song_next_note (void)
 {
-  buzz_stop ();
-  song_timer_breathe = song_breathe_table[song_index];
+  /*if (!(song_now + note)->continuity)*/
+    buzz_stop ();
+  /*song_timer_breathe = song_breathe_table[song_index];*/
   if (note < song_length[song_index])
     note += 1;
   else
@@ -47,9 +48,9 @@ void song_timer (void) __interrupt 1
 {
   TH0 = VELOCITIES_TH;
   TL0 = VELOCITIES_TL;
-  if (song_timer_breathe)
-    song_timer_breathe -= 1;
-  else if (!note_is_zero)
+  /*if (song_timer_breathe)*/
+    /*song_timer_breathe -= 1;*/
+  if (!note_is_zero)
     buzz_resume ();
   song_timer_meter -= 1;
   if (song_timer_meter == 0) 
@@ -103,7 +104,6 @@ void song_next (void)
     song_index = 0;
   song_setup ();
   song_set_note();
-  delay (10);
 }
 
 /*
@@ -187,6 +187,5 @@ int song_choose (int index)
   song_index = index;
   song_setup ();
   song_set_note();
-  delay (10);
   return index;
 }

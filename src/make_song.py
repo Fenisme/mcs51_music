@@ -77,7 +77,13 @@ def make_freq_table_c (table, index):
         c_code += "  {{{th}, {tl}}},\n".format(th = i[1], tl = i[2])
     c_code += "};\n\n"
     return c_code
-        
+
+# def need_continuity (length):
+    # if length > 7:
+        # return 1
+    # else:
+        # return 0
+
 def encode_song (song, table, index = 0):
     tones = 0
     section = 1
@@ -93,8 +99,9 @@ def encode_song (song, table, index = 0):
             section += 1
         tmp_length = i[1]
         while tmp_length > 0:
-            c_code += "{{{index}, {length}}},".format(index = table[i[0]][0], length = min(tmp_length, 7))
-            tmp_length -= 7
+            # c_code += "{{{continuity}, {length}, {index}}},".format(continuity = need_continuity (tmp_length), index = table[i[0]][0], length = min(tmp_length, 7))
+            c_code += "{{{length}, {index}}},".format(index = table[i[0]][0], length = min(tmp_length, 15))
+            tmp_length -= 15
         tones += i[1]
     c_code += "\n"
     c_code += "};\n\n"

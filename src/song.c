@@ -1,5 +1,6 @@
 #include "song.h"
 #include "music.h"
+#include "button.h"
 
 static int note;
 static int song_index;
@@ -44,6 +45,8 @@ static void song_next_note (void)
 
 void song_timer (void) __interrupt 1
 {
+  TH0 = VELOCITIES_TH;
+  TL0 = VELOCITIES_TL;
   if (song_timer_breathe)
     song_timer_breathe -= 1;
   else if (!note_is_zero)
@@ -56,8 +59,6 @@ void song_timer (void) __interrupt 1
     }
   if (song_timer_count <= 0)
     song_next_note ();
-  TH0 = VELOCITIES_TH;
-  TL0 = VELOCITIES_TL;
 }
 
 void note_timer (void) __interrupt 3
@@ -96,12 +97,13 @@ void song_pause (void)
  */
 void song_next (void)
 {
-  if (song_index < 2)
+  if (song_index < SONG_INDEX_MAX)
     song_index += 1;
   else
     song_index = 0;
   song_setup ();
   song_set_note();
+  delay (10);
 }
 
 /*
@@ -166,4 +168,14 @@ void song_switch (void)
     song_play ();
     song_status =  1;
   }
+}
+
+int song_get_status (void)
+{
+  return song_status;
+}
+
+int song_get_index (void)
+{
+  return song_index;
 }

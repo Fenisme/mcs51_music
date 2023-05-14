@@ -2,6 +2,10 @@
 #include "button.h"
 #include "config.h"
 #include "song.h"
+#include "music.h"
+#ifdef LED
+#include "led.h"
+#endif
 #define BUTTON_ACTIVATE 0
 void main()
 {
@@ -12,6 +16,11 @@ void main()
   song_init ();
   while (1)
     {
+#ifdef LED
+      led_print_status ();
+      led_print_index ();
+      led_putnum (1, SONG_INDEX_MAX);
+#endif
 #ifdef BUTTON_MATRIX
       if (button_scan())
         P2_1 = !P2_1;

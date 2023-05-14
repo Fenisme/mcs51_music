@@ -144,6 +144,8 @@ def make_music_h(songs):
             h_code += ", "
     h_code += "};\n"
 
+    h_code += "#define SONG_INDEX_MAX {}\n".format(index - 1)
+
     h_code += "static const unsigned int song_length[] = {"
     for i in range(index):
         h_code += "{}".format(length[i])

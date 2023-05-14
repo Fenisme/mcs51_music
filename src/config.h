@@ -3,11 +3,13 @@
 #define buzz_switch() P2_5 = !P2_5
 #define buzz_stop() TR1 = 0
 #define buzz_resume() TR1 = 1
-#define BUTTON1 P3_0
-#define BUTTON2 P3_1
+#define BUTTON1 P3_1
+#define BUTTON2 P3_0
 #define BUTTON3 P3_2
 #define BUTTON_ACTIVATE 0
 #define BUTTON_MATRIX P1
+#define LED P0
+void led_choose (int index);
 #endif
 
 #ifdef Generic8051

@@ -137,7 +137,7 @@ def make_music_h(songs):
             h_code += ", "
     h_code += "};\n"
 
-    h_code += "static const Song **songs = {"
+    h_code += "static const Song *songs[] = {"
     for i in range(index):
         h_code += "song{}".format(i)
         if i != index - 1:
